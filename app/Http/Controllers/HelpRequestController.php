@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HelpRequest;
 use Illuminate\Http\Request;
 
 class HelpRequestController extends Controller
@@ -9,9 +10,11 @@ class HelpRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $helpRequests = $request->user()->helpRequests()->orderBy('id', 'desc')->get();
+
+        return response()->json($helpRequests);
     }
 
     /**
@@ -19,7 +22,13 @@ class HelpRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $helpRequest = new HelpRequest();
+        $helpRequest->client_id = $request->user()->id;
+        $helpRequest->description = $request->input('description');
+        $helpRequest->address = $request->input('address', 'Null City');
+        $helpRequest->save();
+
+        return response()->json($helpRequest);
     }
 
     /**

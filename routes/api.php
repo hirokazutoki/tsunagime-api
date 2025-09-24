@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelpRequestController;
@@ -13,13 +13,13 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('register', function (Request $request) {
         $email = $request->input("email");
 
-        $exist = User::whereEmail($email)->exists();
+        $exist = Client::whereEmail($email)->exists();
 
         if ($exist) {
             abort(500);
         }
 
-        User::create(
+        Client::create(
             ['name' => $request->input("name"), 'email' => $request->input("email"), 'password' => $request->input("password")]
         );
     });
@@ -29,7 +29,7 @@ Route::group(['prefix' => 'v1'], function () {
         $email = $request->input("email");
         $name = $request->input("name", 'default');
 
-        $user = User::firstOrCreate(
+        $user = Client::firstOrCreate(
             ["email" => $email],
             [
                 "given_name" => $name,
@@ -44,7 +44,7 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::middleware("auth:sanctum")->group(function () {
-        Route::apiResource('help_requests', HelpRequestController::class);
+        Route::apiResource('help-requests', HelpRequestController::class);
 
         Route::get("/bookmarks", function (Request $request) {
             return $request->user()->bookmarks()->get();
