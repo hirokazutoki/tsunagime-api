@@ -25,7 +25,9 @@ class HelpRequestController extends Controller
         $helpRequest = new HelpRequest();
         $helpRequest->client_id = $request->user()->id;
         $helpRequest->description = $request->input('description');
-        $helpRequest->address = $request->input('address', 'Null City');
+        $helpRequest->address = $request->input('address');
+        $helpRequest->longitude = $request->input('lng');
+        $helpRequest->latitude = $request->input('lat');
         $helpRequest->save();
 
         return response()->json($helpRequest);
