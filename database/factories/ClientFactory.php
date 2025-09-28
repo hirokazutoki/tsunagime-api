@@ -24,6 +24,7 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber,
             // 'line_id' => $this->faker->randomAscii,
             'email' => fake()->unique()->safeEmail(),
