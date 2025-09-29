@@ -17,11 +17,16 @@ class ClientAvailabilityDateSeeder extends Seeder
         $clients = Client::all();
 
         foreach ($clients as $client) {
-            // 例えば各クライアントに3件ずつ作る
+            // 各クライアントに3件ずつ作る
             $dates = collect(range(1, 30))
                 ->map(fn ($i) => now()->addDays($i)->format('Y-m-d'))
                 ->shuffle()
                 ->take(3);
+
+            if ($client->email === 'dev+client@hirokazutoki.com') {
+                // 今日も加える
+                $dates->push(now()->format('Y-m-d'));
+            }
 
             foreach ($dates as $date) {
                 ClientAvailabilityDate::factory()->create([
