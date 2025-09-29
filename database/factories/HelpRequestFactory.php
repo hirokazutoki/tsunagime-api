@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Client;
+use App\Models\HelpRequest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,5 +26,15 @@ class HelpRequestFactory extends Factory
             'latitude' => $this->faker->latitude(35.45, 35.65),
             'client_id' => Client::inRandomOrder()->first()?->id,
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterMaking(function (HelpRequest $helpRequest) {
+            // まだDB保存前に加工する場合
+            if ($helpRequest->process_status === 'completed' && $helpRequest->created_at) {
+                $helpRequest->completed_at = $helpRequest->created_at->copy()->addDays(rand(3, 5));
+            }
+        });
     }
 }

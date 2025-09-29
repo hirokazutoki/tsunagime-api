@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('client_id')->nullable();
             $table->text('description')->nullable();
             $table->enum('process_status', ['pending', 'processing', 'completed', 'canceled'])->default('pending');
+            $table->dateTime('completed_at')->nullable();
             $table->string('address');
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
