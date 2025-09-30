@@ -16,6 +16,7 @@ class VolunteerCenterSeeder extends Seeder
     {
         VolunteerCenter::factory([
             'center_name' => config('tsunagime.volunteer_center.center_name'),
+            'center_type' => 'headquarters',
             'opened_at' => Carbon::parse(config('tsunagime.volunteer_center.opened_at'))->toDateTimeString(),
             'address' => config('tsunagime.volunteer_center.address'),
             'longitude' => config('tsunagime.volunteer_center.longitude'),

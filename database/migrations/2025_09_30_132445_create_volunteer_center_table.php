@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('volunteer_center', function (Blueprint $table) {
             $table->id();
             $table->string('center_name');
+            $table->enum('center_type', ['headquarters', 'satellite', 'mini-satellite', 'parking']);
+            $table->unsignedBigInteger('parent_center_id')->nullable(); // TODO:
             $table->dateTime('opened_at');
             $table->string('address');
             $table->string('longitude')->nullable();
