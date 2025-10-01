@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HelpRequestSeeder::class);
         $this->call(VolunteerGroupSeeder::class);
         $this->call(VolunteerActivitySeeder::class);
+        $this->call(ShuttleDriverSeeder::class);
     }
 }
