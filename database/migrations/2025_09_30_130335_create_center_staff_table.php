@@ -13,13 +13,8 @@ return new class extends Migration
     {
         Schema::create('center_staff', function (Blueprint $table) {
             $table->id();
-            $table->string('family_name');
-            $table->string('given_name');
-            $table->string('phone');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('user_id');
+            $table->foreignId('organization_id')->nullable();
             $table->timestamps();
         });
     }

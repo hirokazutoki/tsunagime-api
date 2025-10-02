@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class ClientSeeder extends Seeder
 {
@@ -14,12 +14,18 @@ class ClientSeeder extends Seeder
      */
     public function run(): void
     {
-        Client::factory(10)->create();
+        $users = User::whereNot('email', 'test@hirokazutoki.com')->inRandomOrder()->limit(10)->get();
+
+        foreach ($users as $user) {
+            Client::factory([
+                'user_id' => $user->id,
+            ])->create();
+        }
+
+        $user = User::whereEmail('test@hirokazutoki.com')->firstOrFail();
 
         Client::factory([
-            'name' => 'Hirokazu Toki',
-            'email' => 'dev+client@hirokazutoki.com',
-            'password' => Hash::make('Test1234'),])
-            ->create();
+            'user_id' => $user->id,
+        ])->create();
     }
 }
