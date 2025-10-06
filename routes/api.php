@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HelpRequestController;
@@ -13,13 +12,13 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('register', function (Request $request) {
         $email = $request->input("email");
 
-        $exist = Client::whereEmail($email)->exists();
+        $exist = \App\Models\User::whereEmail($email)->exists();
 
         if ($exist) {
             abort(500);
         }
 
-        Client::create(
+        \App\Models\User::create(
             ['name' => $request->input("name"), 'email' => $request->input("email"), 'password' => $request->input("password")]
         );
     });
@@ -29,11 +28,11 @@ Route::group(['prefix' => 'v1'], function () {
         $email = $request->input("email");
         $name = $request->input("name", 'default');
 
-        $user = Client::firstOrCreate(
+        $user = \App\Models\User::firstOrCreate(
             ["email" => $email],
             [
-                "given_name" => $name,
-                "family_name" => $name,
+                "name" => $name,
+                "phone" => fake()->phoneNumber,
                 "password" => bcrypt(Str::random(16)), // fake password
             ]
         );
